@@ -1,0 +1,116 @@
+{% extends 'base.html'%}
+{% block title%}
+Manage Course
+{% endblock title %}
+
+{% block sidebarstuff %}
+                        
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'dashboard' %}">
+        Dashboard <span class="sr-only">(current)</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'addCourses' %}">
+        Add Course
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'addBatch' %}">
+        Add Batch
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'addInstructor' %}">
+        Add Instructor
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'addStudent' %}">
+        Add Student
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'managei' %}">
+        Manage Instructor
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'manages' %}">
+        Manage Student
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'managec' %}">
+        Manage Course
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'manageb' %}">
+        Manage Batch
+    </a>
+</li>
+
+
+{% endblock sidebarstuff %}
+
+{% block maincontent %} 
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="card card-primary mt-5">
+                <div class="card-header">
+                    <h3 class="card-title">Course Details</h3>
+
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: auto;">
+                            <form method="GET">
+                                {{myfilter.form}}
+                                
+                                <button type="submit" class="btn btn-info">Search</button>
+                                </form>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                    <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                    {% endif %}
+                    {% if message.tags == 'success' %}
+                    <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </div> 
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for course in courses %}
+                            <tr>
+                                <td>{{ course.course_name }}</td>
+                                <td><a href="/edit_course/{{ course.id }}" class="btn btn-warning">Edit</a>
+                                    <a href="/delete_course/{{ course.id }}" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> 
+
+    </div>
+</main>
+
+
+{% endblock maincontent %}

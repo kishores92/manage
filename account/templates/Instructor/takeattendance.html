@@ -1,0 +1,70 @@
+{% extends 'base.html'%}
+{% block title%}
+Attendance
+{% endblock title %}
+
+{% block sidebarstuff %}
+                        
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'insdashboard' %}">
+        Dashboard
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'insbatch' %}">
+        Batches
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'insmarks' %}">
+        Marks
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'insreport' %}">
+        Generate Report
+    </a>
+</li>
+{% endblock sidebarstuff %} 
+
+{% block maincontent %}
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-primary mt-5">
+                <div class="card-header text-center">
+                    <h3 class="card-title">Take Attendance for Batch {{ batch.batch_name }}</h3>
+                </div>
+                <div class="card-body text-center">
+                    <div class="form-group">
+                        {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="card-text"><h4>Get the student in front of webcam and press Take Attendance</h4></label><br/>
+                            <label class="card-text"><h6>Press s key on the keyboard to stop attendance</h6></label>
+                            <input type="hidden" name="batchid" value="{{batch.id}}">
+                        </div>
+                        <br />
+                        <div class="form-footer">
+                            <input type="submit" class="btn btn-success" value="Take Attendance">
+                            <a href="{% url 'insbatch' %}" class="btn btn-danger">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock maincontent %}

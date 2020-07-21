@@ -1,0 +1,135 @@
+{% extends 'base.html'%}
+{% block title%}
+Edit Batch
+{% endblock title %}
+
+{% block sidebarstuff %}
+                        
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'dashboard' %}">
+        Dashboard <span class="sr-only">(current)</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'addCourses' %}">
+        Add Course
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'addBatch' %}">
+        Add Batch
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'addInstructor' %}">
+        Add Instructor
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'addStudent' %}">
+        Add Student
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'managei' %}">
+        Manage Instructor
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'manages' %}">
+        Manage Student
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'managec' %}">
+        Manage Course
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'manageb' %}">
+        Manage Batch
+    </a>
+</li>
+
+
+{% endblock sidebarstuff %}
+
+{% block maincontent %}
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="card card-primary mt-5">
+                <div class="card-header">
+                    <h3 class="card-title">Edit Batch {{batch.batch_name}}</h3>
+                </div>
+                <form role="form" action="" method="POST">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="form-group">
+                            {% if messages %}
+                            {% for message in messages %}
+                            {% if message.tags == 'error' %}
+                            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                            {% endif %}
+                            {% if message.tags == 'success' %}
+                            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label>Batch Name</label>
+                            <input type="text" class="form-control" value="{{batch.batch_name}}" name="batch_name" required>
+                            <input type="hidden" name="batch_id" value="{{batch.id}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Course Name</label>
+                            <select class="form-control" name="course_id">
+                                {% for course in courses %}
+                                <option value="{{ course.id }}" {% if course.id == batch.course_id.id %} selected {% endif %}> {{ course.course_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Instructor Teaching</label>
+                            <select class="form-control" name="instructor_id">
+                                {% for instructor in instructors %}
+                                <option value="{{ instructor.id }}" {% if instructor.id == batch.instructor_id.id %} selected {% endif %}> {{ instructor.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Start Time</label>
+                            <input type="time" class="form-control" value="{{batch.start_time|time:'H:i'}}" name="start_time" required>
+                        </div>
+                        <div class="form-group">
+                            <label>End Time</label>
+                            <input type="time" class="form-control" value="{{ batch.end_time|time:'H:i' }}" name="end_time" required>
+                        </div>
+                        <div class="form-group"> 
+                            <label>Days</label><br/>
+                            <label class="checkbox-inline"><input type="checkbox" name="day" value="Mon" {% if "Mon" in listofdays %} checked {% endif %}> Monday</label>
+                            <label class="checkbox-inline ml-2"><input type="checkbox" name="day" value="Tue" {% if "Tue" in listofdays %} checked {% endif %}> Tuesday</label>
+                            <label class="checkbox-inline ml-2"><input type="checkbox" name="day" value="Wed" {% if "Wed" in listofdays %} checked {% endif %}> Wednesday</label>
+                            <label class="checkbox-inline ml-2"><input type="checkbox" name="day" value="Thu" {% if "Thu" in listofdays %} checked {% endif %}> Thursday</label>
+                            <label class="checkbox-inline ml-2"><input type="checkbox" name="day" value="Fri" {% if "Fri" in listofdays %} checked {% endif %}> Friday</label>
+                            <label class="checkbox-inline ml-2"><input type="checkbox" name="day" value="Sat" {% if "Sat" in listofdays %} checked {% endif %}> Saturday</label>
+                            <label class="checkbox-inline ml-2"><input type="checkbox" name="day" value="Sun" {% if "Sun" in listofdays %} checked {% endif %}> Sunday</label>
+                        </div>
+                    </div>
+
+
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary btn-block">Edit Batch</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+{% endblock maincontent %}

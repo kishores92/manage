@@ -1,0 +1,69 @@
+{% extends 'base.html'%}
+{% block title%}
+Student Dashboard
+{% endblock title %}
+
+{% block sidebarstuff %}
+                        
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'studashboard' %}">
+        Dashboard
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link " href="{% url 'stucourses' %}">
+        Batches
+    </a>
+</li>
+
+
+{% endblock sidebarstuff %} 
+
+{% block maincontent %}
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-primary mt-5">
+                <div class="card-header text-center">
+                    <h3 class="card-title">Notifications</h3>
+                </div>
+                <div class="card-body text-center">
+                    <div class="form-group">
+                        {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div>
+                        {% for notif in notification %}
+                        <div class="alert alert-primary" role="alert">
+                            <h4 class="alert-heading">Notification!</h4>
+                            <p>{{ notif.msg_content }}</p>
+                            <hr>
+                            <p class="mb-0">From Instructor {{notif.sendN.name}} at {{notif.created_at|time:'H:i'}}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="hidden" name="delete" value="delete">
+                        </div>
+                        <br />
+                        <div class="form-footer">
+                            <input type="submit" class="btn btn-danger" value="Clear Notifications">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock maincontent %}

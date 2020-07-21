@@ -1,0 +1,66 @@
+{% extends 'base.html'%}
+{% block title%}
+Student Attendance
+{% endblock title %}
+
+{% block sidebarstuff %}
+                        
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'studashboard' %}">
+        Dashboard
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'stucourses' %}">
+        Batches
+    </a>
+</li>
+
+
+{% endblock sidebarstuff %} 
+
+{% block maincontent %}
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="card card-primary mt-5">
+                <div class="card-header">
+                    <h3 class="card-title">Dates you were present on in batch {{batch.batch_name}}</h3>
+                </div>
+                <div class="form-group">
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                    <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                    {% endif %}
+                    {% if message.tags == 'success' %}
+                    <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for att in attendances %}
+                            <tr>
+                                <td>{{ att.attendance_date|date:'M d, Y' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+
+{% endblock maincontent %}

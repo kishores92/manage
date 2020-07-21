@@ -1,0 +1,54 @@
+{% extends 'base.html'%}
+{% block title%}
+Instructor Dashboard
+{% endblock title %}
+
+{% block sidebarstuff %}
+
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'insdashboard' %}">
+        Dashboard
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'insbatch' %}">
+        Batches
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'insmarks' %}">
+        Marks
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'insreport' %}">
+        Generate Report
+    </a>
+</li>
+
+{% endblock sidebarstuff %} 
+
+{% block maincontent %}
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <div class="text-center mt-5">
+                {% if messages %}
+                {% for message in messages %}
+                {% if message.tags == 'error' %}
+                <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                {% endif %}
+                {% if message.tags == 'success' %}
+                <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+
+
+        </div>
+    </div>
+</main>
+{% endblock maincontent %}
+

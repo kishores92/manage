@@ -1,0 +1,92 @@
+{% extends 'base.html'%}
+{% block title%}
+Delete Batch
+{% endblock title %}
+
+{% block sidebarstuff %}
+                        
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'dashboard' %}">
+        Dashboard <span class="sr-only">(current)</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'addCourses' %}">
+        Add Course
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'addBatch' %}">
+        Add Batch
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'addInstructor' %}">
+        Add Instructor
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'addStudent' %}">
+        Add Student
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'managei' %}">
+        Manage Instructor
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'manages' %}">
+        Manage Student
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'managec' %}">
+        Manage Course
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'manageb' %}">
+        Manage Batch
+    </a>
+</li>
+
+{% endblock sidebarstuff %}
+
+{% block maincontent %}
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-primary mt-5">
+                <div class="card-header text-center">
+                    <h3 class="card-title">Delete Batch {{batch.batch_name}} </h3>
+                </div>
+                <div class="card-body text-center">
+                    <div class="form-group">
+                        {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{batch.id}}" name="batchid">
+                        <br />
+                        <div class="form-footer">
+                            <input type="submit" class="btn btn-primary" value="Delete">
+                            <a href="{% url 'manageb' %}" class="btn btn-danger">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock maincontent %}
